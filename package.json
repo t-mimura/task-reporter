@@ -1,0 +1,31 @@
+{
+  "name": "task-reporter",
+  "version": "0.0.1",
+  "description": "slack bot",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "typings install",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/t-mimura/task-reporter.git"
+  },
+  "keywords": [
+    "slack",
+    "bot"
+  ],
+  "author": "MIMURA Tomohiro",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/t-mimura/task-reporter/issues"
+  },
+  "homepage": "https://github.com/t-mimura/task-reporter#readme",
+  "dependencies": {
+    "botkit": "0.0.5"
+  },
+  "devDependencies": {
+    "typings": "^0.6.3"
+  }
+}
