@@ -1,5 +1,30 @@
 'use strict';
 
+const rmUtils = require('./report-manager-utils');
+const fs = require('fs');
+const path = require('path');
+
+const REACTION_FILE_PATH = path.resolve('./.task-reporter/reaction.json');
+const REACTION_ICON_WEIGHT = (() => {
+  if (fs.existsSync(REACTION_FILE_PATH)) {
+    return JSON.parse(fs.readFileSync(REACTION_FILE_PATH, 'utf8'));
+  } else {
+    return [
+      { weight: 1, value: ['+1']},
+      { weight: 1, value: ['ok_woman']},
+      { weight: 1, value: ['eyes']}
+    ];
+  }
+})();
+
+/**
+ * 報告者の報告に対するリアクション（アイコン）をランダムで取得します。
+ * @return アイコン用の文字列 ex) :smile:
+ */
+function getReactionIcon() {
+  return rmUtils.randamWithWeight(REACTION_ICON_WEIGHT);
+}
+
 /**
  * 報告会を管理するクラスです。
  * 次の機能があります。
@@ -124,12 +149,15 @@ class Reporter {
    */
   onDirectMention(message) {
     if (message.user === this.waiting) {
-      this.bot.api.reactions.add({
-        timestamp: message.ts,
-        channel: message.channel,
-        name: 'ok_woman',
-      }, (err) => {
-        if (err) { console.log(err) }
+      const icons = getReactionIcon();
+      icons.forEach((icon) => {
+        this.bot.api.reactions.add({
+          timestamp: message.ts,
+          channel: message.channel,
+          name: icon,
+        }, (err) => {
+          if (err) { console.log(err) }
+        });
       });
       this.next();
       return true;

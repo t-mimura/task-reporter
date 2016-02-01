@@ -1,5 +1,5 @@
 # environment
-BOT_TOKEN
+.task-reporter/
 
 # distination
 dist

@@ -61,9 +61,35 @@ function randamize(array) {
   return result;
 }
 
+/**
+ * 指定した重み付けでランダムに値を選びます。
+ * @param conf 重みと値の配列。 { weight: number; value: any; }[]
+ * @return 選んだ値
+ */
+function randamWithWeight(conf) {
+  const targets = [];
+  let total = 0;
+  conf.forEach((one) => {
+    total += one.weight;
+    targets.push({
+      upper: total,
+      value: one.value
+    });
+  });
+  const point = Math.random() * total;
+  let result;
+  targets.forEach((target) => {
+    if (!result && point < target.upper) {
+      result = target.value;
+    }
+  });
+  return result;
+}
+
 module.exports = {
   deepCopy,
   actWithCatch,
   actWithChannel,
-  randamize
+  randamize,
+  randamWithWeight
 };

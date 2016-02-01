@@ -15,7 +15,7 @@ const DM_AND_MENTIONS = [].concat(DM).concat(MENTIONS);
 
 // このファイル内全体で使う変数の定義
 const isDebug = process.env.NODE_ENV === 'deployment';
-const token = fs.readFileSync('BOT_TOKEN', 'utf8').trim();
+const token = fs.readFileSync('.task-reporter/BOT_TOKEN', 'utf8').trim();
 const controller = Botkit.slackbot({
   debug: isDebug,
   json_file_store: '.storage'
