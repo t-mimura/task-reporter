@@ -149,16 +149,21 @@ class Reporter {
    */
   onDirectMention(message) {
     if (message.user === this.waiting) {
-      const icons = getReactionIcon();
-      icons.forEach((icon) => {
-        this.bot.api.reactions.add({
-          timestamp: message.ts,
-          channel: message.channel,
-          name: icon,
-        }, (err) => {
-          if (err) { console.log(err) }
-        });
-      });
+      const icons = rmUtils.deepCopy(getReactionIcon());
+      const addIcon = () => {
+        const icon = icons.shift();
+        if (icon) {
+          this.bot.api.reactions.add({
+            timestamp: message.ts,
+            channel: message.channel,
+            name: icon,
+          }, (err) => {
+            if (err) { console.log(err) }
+            addIcon();
+          });
+        }
+      };
+      addIcon();
       this.next();
       return true;
     } else {
